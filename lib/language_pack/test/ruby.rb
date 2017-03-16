@@ -15,7 +15,7 @@ class LanguagePack::Ruby
         post_bundler
         create_database_yml
         install_binaries
-        #prepare_tests
+        prepare_tests
       end
       super
     end
@@ -23,13 +23,13 @@ class LanguagePack::Ruby
 
   private
   def prepare_tests
-    structure_load = rake.task("db:structure:load")
+    test_prepare = rake.task("db:test:prepare")
     db_migrate  = rake.task("db:migrate")
-    return true unless (structure_load.is_defined? || db_migrate.is_defined?)
+    return true unless (test_prepare.is_defined? || db_migrate.is_defined?)
 
     topic "Preparing test database schema"
 
-    [structure_load, db_migrate].each do |rake_task|
+    [test_prepare, db_migrate].each do |rake_task|
       if rake_task.is_defined?
         rake_task.invoke(env: rake_env)
         if rake_task.success?
