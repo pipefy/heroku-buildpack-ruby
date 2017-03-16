@@ -15,7 +15,7 @@ class LanguagePack::Ruby
         post_bundler
         create_database_yml
         install_binaries
-        prepare_tests
+        #prepare_tests
       end
       super
     end
